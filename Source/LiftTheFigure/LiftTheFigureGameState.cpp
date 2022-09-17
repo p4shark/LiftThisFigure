@@ -57,13 +57,11 @@ void ALiftTheFigureGameStateBase::AddFigure()
 
 void ALiftTheFigureGameStateBase::Message_Implementation(float Time, FName Name)
 {
-	IMessage::Message_Implementation(Time, Name);
 	RequestTimeReload.Broadcast(Time,Name);
 }
 
 float ALiftTheFigureGameStateBase::GetRemainingTime_Implementation()
 {
-	IRound::GetRemainingTime_Implementation();
 	return RemainingTime;
 }
 
@@ -78,6 +76,7 @@ void ALiftTheFigureGameStateBase::Multicast_EndGame_Implementation(bool bTempora
 void ALiftTheFigureGameStateBase::OnRep_HowFigureNow()
 {
 	ChangeHowFigureNow.Broadcast(HowFigureNow);
+	
 }
 
 void ALiftTheFigureGameStateBase::OnRep_HowFigureToWin()

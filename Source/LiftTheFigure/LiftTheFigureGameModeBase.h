@@ -26,9 +26,11 @@ private:
 	UPROPERTY()
 	ALiftTheFigureGameStateBase * MainGameState;
 
+	void EndedGame();
+	UFUNCTION()
 	void EndGame();
 	UFUNCTION()
-	void EndTime();
+	void CheckVictory(int32 TemparyHowNow);
 	
 public:
 	ALiftTheFigureGameModeBase();

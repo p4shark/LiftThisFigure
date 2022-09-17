@@ -14,10 +14,10 @@
 /**
  * 
  */
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FChangeHowFigureNeedToWin , int32, Id);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FChangeHowFigureNow, int32, HowNow);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FChangeTypeFigureToWin, int32, HowAll);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FPrintedInfoAboutReloadAbility, float, Time, FName, Name);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FChangedHowFigureNeedToWin , int32, Id);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FChangedHowFigureNow, int32, HowNow);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FChangedTypeFigureToWin, int32, HowAll);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FRequestedInfoAboutReloadAbility, float, Time, FName, Name);
 UCLASS()
 class LIFTTHEFIGURE_API ALiftTheFigureGameStateBase : public AGameStateBase, public IRound, public IMessage
 {
@@ -65,13 +65,13 @@ public:
 
 	
 	UPROPERTY(BlueprintAssignable)
-	FChangeHowFigureNeedToWin ChangeHowFigureNeedToWin;
+	FChangedHowFigureNeedToWin ChangeHowFigureNeedToWin;
 	UPROPERTY(BlueprintAssignable)
-	FChangeHowFigureNow ChangeHowFigureNow;
+	FChangedHowFigureNow ChangeHowFigureNow;
 	UPROPERTY(BlueprintAssignable)
-	FChangeTypeFigureToWin ChangeTypeFigureToWin;
+	FChangedTypeFigureToWin ChangeTypeFigureToWin;
 	UPROPERTY(BlueprintAssignable)
-	FPrintedInfoAboutReloadAbility RequestTimeReload;
+	FRequestedInfoAboutReloadAbility RequestTimeReload;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	float GetRemainingTime();

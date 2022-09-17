@@ -17,34 +17,38 @@ void ALiftTheFigureGameModeBase::BeginPlay()
 	Super::BeginPlay();
 	HowFigureToWin = UKismetMathLibrary::RandomIntegerInRange(2, 6);
 	TypeFigure = UKismetMathLibrary::RandomIntegerInRange(0, 2);
-	MainGameState = Cast<ALiftTheFigureGameStateBase>(UGameplayStatics::GetGameState(this));
+	MainGameState = Cast<ALiftTheFigureGameStateBase>(GameState);
 
 	MainGameState->SetHowFigureToWin(HowFigureToWin);
 	MainGameState->SetTypeFigure(TypeFigure);
-	GetWorld()->GetTimerManager().SetTimer(Timer, this, &ALiftTheFigureGameModeBase::EndTime, 30, false);
+	GetWorld()->GetTimerManager().SetTimer(Timer, this, &ALiftTheFigureGameModeBase::EndGame, 30, false);
+	MainGameState->ChangeHowFigureNow.AddDynamic(this, &ALiftTheFigureGameModeBase::CheckVictory);
 }
 
 void ALiftTheFigureGameModeBase::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 	MainGameState->SetRemainingTime(UKismetSystemLibrary::K2_GetTimerRemainingTimeHandle(this,Timer));
-	if(MainGameState->GetHowFigureNow()>=HowFigureToWin)
-	{
-		bVictory = true;
-		UKismetSystemLibrary::K2_PauseTimerHandle(this, Timer);
-		EndGame();
-	}
 }
 
-void ALiftTheFigureGameModeBase::EndGame()
+void ALiftTheFigureGameModeBase::EndedGame()
 {
 	MainGameState->Multicast_EndGame(bVictory);
 }
 
-void ALiftTheFigureGameModeBase::EndTime()
+void ALiftTheFigureGameModeBase::EndGame()
 {
-	UKismetSystemLibrary::K2_ClearTimerHandle(this,Timer);
-	UKismetSystemLibrary::K2_InvalidateTimerHandle(Timer);
-	EndGame();
+	UKismetSystemLibrary::K2_ClearAndInvalidateTimerHandle(this,Timer);
+	EndedGame();
+}
+
+void ALiftTheFigureGameModeBase::CheckVictory(int32 TemparyHowNow)
+{
+	if(TemparyHowNow>=HowFigureToWin)
+	{
+		bVictory = true;
+		UKismetSystemLibrary::K2_PauseTimerHandle(this, Timer);
+		EndedGame();
+	}
 }
 
