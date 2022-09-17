@@ -21,9 +21,7 @@ protected:
 private:
 	int32 HowFigureToWin;
 	int32 TypeFigure;
-
 	FTimerHandle Timer;
-
 	bool bVictory;
 	UPROPERTY()
 	ALiftTheFigureGameStateBase * MainGameState;
@@ -31,6 +29,7 @@ private:
 	void EndGame();
 	UFUNCTION()
 	void EndTime();
+	
 public:
 	ALiftTheFigureGameModeBase();
 };

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Message.h"
 #include "Round.h"
 #include "GameFramework/GameStateBase.h"
 #include "Net/UnrealNetwork.h"
@@ -16,8 +17,9 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FChangeHowFigureNeedToWin , int32, Id);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FChangeHowFigureNow, int32, HowNow);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FChangeTypeFigureToWin, int32, HowAll);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FPrintedInfoAboutReloadAbility, float, Time, FName, Name);
 UCLASS()
-class LIFTTHEFIGURE_API ALiftTheFigureGameStateBase : public AGameStateBase, public IRound
+class LIFTTHEFIGURE_API ALiftTheFigureGameStateBase : public AGameStateBase, public IRound, public IMessage
 {
 	GENERATED_BODY()
 private:
@@ -68,8 +70,14 @@ public:
 	FChangeHowFigureNow ChangeHowFigureNow;
 	UPROPERTY(BlueprintAssignable)
 	FChangeTypeFigureToWin ChangeTypeFigureToWin;
+	UPROPERTY(BlueprintAssignable)
+	FPrintedInfoAboutReloadAbility RequestTimeReload;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	float GetRemainingTime();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void Message(float Time, FName Name);
+
 
 };
